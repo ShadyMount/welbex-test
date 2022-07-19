@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 const port = 3000
+const routes = require('./settings/routes')
+
+routes(app)
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
