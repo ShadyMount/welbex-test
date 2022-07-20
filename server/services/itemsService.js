@@ -2,41 +2,43 @@ const { Op } = require("sequelize")
 
 const items = require("../settings/db").items
 
-const whereConditions = (sort, sortValue, sortDir) => {
+const whereConditions = (sortBy, sortValue, sortCompare) => {
     let conditions = {}
 
-    if(sort === 'name'){
-        if(sortDir === 'contains'){
-            conditions = {...conditions, 'name': {[Op.substring]: sortValue}}
-        }else{
+    if(sortBy === 'name'){
+        if(sortCompare === 'equal'){
             conditions = {...conditions, 'name': {[Op.eq]: sortValue}}
         }
+        if(sortCompare === 'contains'){
+            conditions = {...conditions, 'name': {[Op.substring]: sortValue}}
+        }
     }
-    if(sort === 'quantity'){
-        if(sortDir === 'more'){
+    if(sortBy === 'quantity'){
+        console.log('where:',sortCompare);
+        if(sortCompare === 'more'){
             conditions = {...conditions, 'quantity': {[Op.gt]: sortValue}}
         }
-        if(sortDir === 'less'){
+        if(sortCompare === 'less'){
             conditions = {...conditions, 'quantity': {[Op.lt]: sortValue}}
         }
-        if(sortDir === 'contains'){
+        if(sortCompare === 'contains'){
             conditions = {...conditions, 'quantity': {[Op.substring]: sortValue}}
         }
-        else{
+        if(sortCompare === 'equal'){
             conditions = {...conditions, 'quantity': {[Op.eq]: sortValue}}
         }
     }
-    if(sort === 'distance'){
-        if(sortDir === 'more'){
+    if(sortBy === 'distance'){
+        if(sortCompare === 'more'){
             conditions = {...conditions, 'distance': {[Op.gt]: sortValue}}
         }
-        if(sortDir === 'less'){
+        if(sortCompare === 'less'){
             conditions = {...conditions, 'distance': {[Op.lt]: sortValue}}
         }
-        if(sortDir === 'contains'){
+        if(sortCompare === 'contains'){
             conditions = {...conditions, 'distance': {[Op.substring]: sortValue}}
         }
-        else{
+        if(sortCompare === 'equal'){
             conditions = {...conditions, 'distance': {[Op.eq]: sortValue}}
         }
     }
@@ -45,10 +47,10 @@ const whereConditions = (sort, sortValue, sortDir) => {
 
 class TasksService {
 
-    async findItems({ sort, sortValue, sortDir, currentPage, pageSize }) {
+    async findItems({ sortBy, sortValue, sortCompare, currentPage, pageSize }) {
         const skip = (currentPage - 1) * pageSize
         const itemsFromDb = await items.findAll({
-            where: whereConditions(sort, sortValue, sortDir),
+            where: whereConditions(sortBy, sortValue, sortCompare),
             offset: skip,
             limit: pageSize
         })
@@ -56,9 +58,9 @@ class TasksService {
         return itemsFromDb
     }
 
-        async countItems({ sort, sortValue, sortDir }) {
+        async countItems({ sortBy, sortValue, sortCompare }) {
                 const count = await items.count({
-                    where: whereConditions(sort, sortValue, sortDir,)
+                    where: whereConditions(sortBy, sortValue, sortCompare)
                 })
                 return count
         }

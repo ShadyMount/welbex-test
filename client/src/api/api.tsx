@@ -2,20 +2,20 @@ import { instance } from "./axiosInstance"
 
 
 interface IGetItems {
-    currentPage?: number,
-    pageSize?: number,
-    sortDir?: string,
-    sortValue?: string | number,
-    sortBy?: string
+    currentPage?: number | null,
+    pageSize?: number | null,
+    sortCompare?: string | null,
+    sortValue?: string | number | null,
+    sortBy?: string | null
 }
 
 export const itemsAPI = {
     
     
-    async getItems({currentPage, pageSize, sortDir, sortValue, sortBy}: IGetItems) {
+    async getItems({currentPage, pageSize, sortCompare, sortValue, sortBy}: IGetItems) {
         let response = await instance.get('api/items', {
             params: {
-                currentPage, pageSize, sortDir, sortValue, sortBy,
+                currentPage, pageSize, sortCompare, sortValue, sortBy,
             }
         })
             return response.data.values

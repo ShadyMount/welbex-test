@@ -24,9 +24,9 @@ const Paginator:FC<IPaginator> = ({totalItems, portionSize = 5, currentPage, set
     return (      
             <div className={classes.Pages}>
                 {portionNumber > 1 &&
-                <button onClick={()=>{setPortionNumber(portionNumber - 1)}}>предыдущие</button>
+                <button onClick={()=>{setPortionNumber(portionNumber - 1)}}>prev</button>
                 }
-                Страницы: {pages
+                Pages: {pages
                 .filter(p => p >= leftPortionNumber && p <= rightPortionNumber)
                 .map(p => {
                     return <div key={p} className={currentPage === p ? classes.Selected : classes.PageNumber}
@@ -34,7 +34,7 @@ const Paginator:FC<IPaginator> = ({totalItems, portionSize = 5, currentPage, set
                     >{p}</div>
                 })}
                 {portionCount > portionNumber &&
-                <button onClick={()=>{setPortionNumber(portionNumber + 1)}}>следующие</button>
+                <button onClick={()=>{setPortionNumber(portionNumber + 1)}}>next</button>
                 }
             </div>
     )
