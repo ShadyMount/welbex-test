@@ -13,16 +13,12 @@ export const itemsAPI = {
     
     
     async getItems({currentPage, pageSize, sortDir, sortValue, sortBy}: IGetItems) {
-
-        return  instance.get('api/items', {
+        let response = await instance.get('api/items', {
             params: {
-                currentPage, pageSize, sortDir, sortValue, sortBy
+                currentPage, pageSize, sortDir, sortValue, sortBy,
             }
         })
-        .then(response => {
             return response.data.values
-        })
-
     },
 
     
