@@ -1,4 +1,3 @@
-const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('item', {
     id: {
@@ -11,11 +10,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     quantity: {
-      type: DataTypes.SMALLINT,
+      type: DataTypes.BIGINT,
       allowNull: false
     },
     distance: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.BIGINT,
       allowNull: false
     },
     date: {
