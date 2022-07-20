@@ -9,9 +9,11 @@ export const Filters = () => {
             <option value={'distance'}>Distance</option>
         </select>
         <select onChange={(e)=> console.log(e.target.value)}>
-            <option value={'more'}>{'>'}</option>
-            <option value={'less'}>{'<'}</option>
-            <option value={'equal'}>{'='}</option>
+            <option value={'more'}>More than</option>
+            <option value={'less'}>Less than</option>
+            <option value={'equal'}>Equals</option>
+            <option value={'contains'}>Contains</option>
+
         </select>
         <input onChange={(e)=> console.log(e.target.value)} type="text" />
     </div>

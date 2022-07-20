@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { FC } from 'react'
 import cn from './Table.module.css'
 
-export const Table = () => {
+interface ITable {
+  items: any[]
+}
+export const Table:FC<ITable> = ({items}) => {
   return (
     <div className={cn.tableWrapper}>
     <table className={cn.flTable}>
@@ -15,13 +18,15 @@ export const Table = () => {
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Content 1</td>
-            <td>Content 1</td>
-            <td>Content 1</td>
-            <td>Content 1</td>
-            <td>Content 1</td>
-        </tr>
+        {items.map((item:any)=>(
+          <tr key={item.id}>
+          <td>{item.id}</td>
+          <td>{item.name}</td>
+          <td>{item.quantity}</td>
+          <td>{item.distance}</td>
+          <td>{item.date}</td>
+      </tr>
+        ))}
         </tbody>
     </table>
 </div>

@@ -1,0 +1,21 @@
+.Pages{
+    display: flex;
+    justify-content: center;
+    column-gap: 5px;
+    font-size: large;
+    
+}
+
+.PageNumber:hover{
+    cursor: pointer;
+    
+}
+
+.Selected{
+    font-weight: bold;
+    text-decoration: underline;
+}
+.Selected:hover{
+    cursor: pointer;
+    
+}
