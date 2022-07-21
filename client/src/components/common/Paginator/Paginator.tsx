@@ -10,7 +10,7 @@ interface IPaginator {
     setPageSize: (p:number) => void
 }
 
-const Paginator:FC<IPaginator> = ({totalItems, portionSize = 5, currentPage, setCurrentPage, pageSize, setPageSize}) => {
+export const Paginator:FC<IPaginator> = ({totalItems, portionSize = 5, currentPage, setCurrentPage, pageSize, setPageSize}) => {
     const totalPages = Math.ceil(totalItems / pageSize)   
     let pages = []
     for (let i = 1; i <= totalPages; i++) {
@@ -47,5 +47,3 @@ const Paginator:FC<IPaginator> = ({totalItems, portionSize = 5, currentPage, set
             </div>
     )
 }
-
-export default Paginator

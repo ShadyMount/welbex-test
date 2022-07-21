@@ -1,8 +1,6 @@
-import { memo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { itemsAPI } from "./api/api";
-import { Filters, Table } from "./components";
-import Paginator from "./components/common/Paginator/Paginator";
-import Spinner from "./components/uiComponents/Spinner/Spinner";
+import { Filters, Table, Paginator, Spinner } from "./components";
 
 function App() {
 
@@ -27,6 +25,7 @@ function App() {
       }
     }
     getItems()
+    // eslint-disable-next-line
   }, [sortBy, sortValue, sortCompare, currentPage, pageSize, itemsData.itemsAmount])
 console.log('ps: ', pageSize);
 

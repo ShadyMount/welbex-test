@@ -47,7 +47,7 @@ export const Table:FC<ITable> = ({items}) => {
           <td>{item.name}</td>
           <td>{item.quantity}</td>
           <td>{item.distance}</td>
-          <td>{item.date}</td>
+          <td>{new Date(item.date).toLocaleDateString()}</td>
       </tr>
         ))}
         </tbody>
