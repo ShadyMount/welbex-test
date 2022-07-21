@@ -19,7 +19,6 @@ function App() {
           if(!isFetching){
             setIsFetching(true)
             let items = await itemsAPI.getItems({sortBy, sortValue, sortCompare, currentPage, pageSize})
-            console.log('FETCHGING')
             if(Math.ceil(items.itemsAmount / pageSize) < Math.ceil(itemsData.itemsAmount / pageSize)){
               setCurrentPage(1)
             }        
