@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/welbex-test/static/css/main.b8d86ec7.css",
-    "main.js": "/welbex-test/static/js/main.c550db6d.js",
+    "main.js": "/welbex-test/static/js/main.aa846b06.js",
     "index.html": "/welbex-test/index.html",
     "main.b8d86ec7.css.map": "/welbex-test/static/css/main.b8d86ec7.css.map",
-    "main.c550db6d.js.map": "/welbex-test/static/js/main.c550db6d.js.map"
+    "main.aa846b06.js.map": "/welbex-test/static/js/main.aa846b06.js.map"
   },
   "entrypoints": [
     "static/css/main.b8d86ec7.css",
-    "static/js/main.c550db6d.js"
+    "static/js/main.aa846b06.js"
   ]
 }
