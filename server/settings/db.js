@@ -1,21 +1,22 @@
 require('dotenv').config()
 
-const Sequelize = require('sequelize')
+
+const { Pool } = require('pg')
+const pool = new Pool({
+  user: process.env.DB_USERNAME,
+  host: process.env.DB_HOST,
+  database: process.env.DB_BASE,
+  password: process.env.DB_PASSWORD,
+  port: process.env.PGPORT,
+  ssl: {
+    rejectUnauthorized: false
+  },
+})
+
+pool.on('error', (err, client) => {
+  console.error('Unexpected error on idle client', err)
+  process.exit(-1)
+})
 
 
-
-const sequelize = new Sequelize(process.env.DB_BASE, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
-    host: process.env.DB_HOST,
-    dialect: 'postgres',
-    dialectOptions: {
-        "ssl": { rejectUnauthorized: false },
-        //     "ssl": true
-    },
-});
-
-const items = require('../models/init-models')(sequelize).items
-
-
-
-
-module.exports = { items } 
+module.exports={pool}
