@@ -8,10 +8,10 @@ const pool = new Pool({
   database: process.env.PGBASE,
   password: process.env.PGPASSWORD,
   port: process.env.PGPORT,
-  ssl: {
-    rejectUnauthorized: false
-  },
-  // ssl:true
+  // ssl: {
+  //   rejectUnauthorized: false
+  // },
+  ssl:true
 })
 
 pool.on('error', (err, client) => {
