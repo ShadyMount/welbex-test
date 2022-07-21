@@ -33,6 +33,7 @@ const whereConditions = (sortBy, sortValue, sortCompare) => {
         }
     }
 
+
     if (sortBy === 'distance' && sortValue !== '') {
         if (sortCompare === 'more') {
             whereConditions = 'WHERE item.distance'
@@ -52,8 +53,10 @@ const whereConditions = (sortBy, sortValue, sortCompare) => {
         }
     }
 
+
     return whereConditions + ' ' + likeConditions
 }
+
 
 
 
