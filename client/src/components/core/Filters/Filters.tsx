@@ -15,7 +15,7 @@ interface IFilters {
 export const Filters: FC<IFilters> = ({ setSortBy, setSortCompare, setSortValue, sortBy, sortCompare, sortValue, isDisabled }) => {
 
   const [currentInputValue, setCurrentInputValue] = useState(sortValue)
-  const [isTyping, setIsTyping] = useState(false)
+  // const [isTyping, setIsTyping] = useState(false)
   const sortChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(e.target.value)
     setSortCompare('')
@@ -27,11 +27,12 @@ export const Filters: FC<IFilters> = ({ setSortBy, setSortCompare, setSortValue,
   }
 
   let timeout : ReturnType<typeof setTimeout>
+
   const valueChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    clearTimeout(timeout)
     setCurrentInputValue(e.target.value)
-    timeout = setTimeout(() => {
-      setSortValue(currentInputValue)
+    clearTimeout(timeout)
+     timeout = setTimeout(() => {
+      setSortValue(e.target.value)
       }, 1000)
   }
   

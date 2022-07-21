@@ -19,6 +19,7 @@ function App() {
           if(!isFetching){
             setIsFetching(true)
             let items = await itemsAPI.getItems({sortBy, sortValue, sortCompare, currentPage, pageSize})
+            console.log('FETCHGING')
             if(Math.ceil(items.itemsAmount / pageSize) < Math.ceil(itemsData.itemsAmount / pageSize)){
               setCurrentPage(1)
             }        
@@ -31,7 +32,7 @@ function App() {
         }
     })()
     // eslint-disable-next-line
-  }, [sortBy, sortValue, sortCompare, currentPage, pageSize, itemsData.itemsAmount])
+  }, [sortBy, sortValue, sortCompare, currentPage, pageSize])
 
 
   if(fetchingError) return <div>Fetching data error: {fetchingError} , please try to reload page...</div>
