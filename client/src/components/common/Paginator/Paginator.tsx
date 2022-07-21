@@ -15,14 +15,14 @@ export const Paginator:FC<IPaginator> = ({totalItems, portionSize = 5, currentPa
     let pages = []
     for (let i = 1; i <= totalPages; i++) {
         pages.push(i)
-    } //устанавливаем количество страниц
+    } //set pages amount
     let portionCount = Math.ceil(totalPages / portionSize)
 
     let [portionNumber, setPortionNumber] = useState(1)
     let leftPortionNumber = (portionNumber - 1) * portionSize + 1
     let rightPortionNumber = portionNumber * portionSize
     
-    return (      
+    return (<>
             <div className={classes.Pages}>
                 {portionNumber > 1 &&
                 <button onClick={()=>{setPortionNumber(portionNumber - 1)}}>prev</button>
@@ -37,13 +37,17 @@ export const Paginator:FC<IPaginator> = ({totalItems, portionSize = 5, currentPa
                 {portionCount > portionNumber &&
                 <button onClick={()=>{setPortionNumber(portionNumber + 1)}}>next</button>
                 }
-                <select value={pageSize} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPageSize(Number(e.target.value))}>
-                    <option value={5}>5</option>
-                    <option value={10}>10</option>
-                    <option value={15}>15</option>
-                    <option value={30}>30</option>
-                    <option value={50}>50</option>
-                </select>
             </div>
+            <label className={classes.itemsOnPage} >
+            items on page:
+            <select value={pageSize} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPageSize(Number(e.target.value))}>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+                <option value={30}>30</option>
+                <option value={50}>50</option>
+            </select>
+            </label>
+            </>
     )
 }

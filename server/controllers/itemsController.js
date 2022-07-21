@@ -7,7 +7,6 @@ const itemsService = require('../services/itemsService')
 class tasksController {
 
     async getItems (req, res, next){
-console.log(req.query);
             const currentPage = Number(req.query.currentPage) || 1
             const pageSize = Number(req.query.pageSize) || 15 
             const sortBy = req.query?.sortBy
@@ -33,15 +32,6 @@ console.log(req.query);
             next(e);
         }
     }
-
-    // async add (req, res, next){
-    //     try {
-    //         await itemsService.addTask(req.body)
-    //         response.status(200, {message: 'item added'}, res)
-    //     } catch (e) {
-    //         next(e);
-    //     }
-    // }
 
 }
 

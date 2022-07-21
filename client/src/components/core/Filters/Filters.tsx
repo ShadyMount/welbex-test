@@ -7,11 +7,12 @@ interface IFilters {
   setSortBy: Dispatch<SetStateAction<string>>
   sortValue: string;
   sortCompare: string;
-  sortBy: string
+  sortBy: string;
+  isDisabled: boolean
 
 }
 
-export const Filters: FC<IFilters> = ({ setSortBy, setSortCompare, setSortValue, sortBy, sortCompare, sortValue }) => {
+export const Filters: FC<IFilters> = ({ setSortBy, setSortCompare, setSortValue, sortBy, sortCompare, sortValue, isDisabled }) => {
 
   const sortChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(e.target.value)
@@ -30,13 +31,13 @@ export const Filters: FC<IFilters> = ({ setSortBy, setSortCompare, setSortValue,
 
   return (
     <div className={cn.filtersWrapper}>
-      <select onChange={sortChangeHandler} value={sortBy}>
+      <select onChange={sortChangeHandler} disabled={isDisabled} value={sortBy}>
         <option value=''>No filter</option>
         <option value={'name'}>Name</option>
         <option value={'quantity'}>Quantity</option>
         <option value={'distance'}>Distance</option>
       </select>
-      <select onChange={compareChangeHandler} value={sortCompare} disabled={sortBy === ''}>
+      <select onChange={compareChangeHandler} value={sortCompare} disabled={sortBy === '' || isDisabled}>
         <option value=''>No compare</option>
        {sortBy !== 'name' && (<>
         <option value={'more'}>More than</option>
@@ -47,7 +48,7 @@ export const Filters: FC<IFilters> = ({ setSortBy, setSortCompare, setSortValue,
         { sortBy !== 'distance' && sortBy !== 'quantity' && <option value={'contains'}>Contains</option>}
 
       </select>
-      <input disabled={sortBy === '' || sortCompare === ''} value={sortValue} onChange={valueChangeHandler} type="text" />
+      <input disabled={sortBy === '' || sortCompare === '' || isDisabled} value={sortValue} onChange={valueChangeHandler} type="text" />
     </div>
   )
 }
