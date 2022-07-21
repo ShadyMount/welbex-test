@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from 'react'
+import { Dispatch, FC, SetStateAction, useState } from 'react'
 import cn from './Filters.module.scss'
 
 interface IFilters {
@@ -14,6 +14,8 @@ interface IFilters {
 
 export const Filters: FC<IFilters> = ({ setSortBy, setSortCompare, setSortValue, sortBy, sortCompare, sortValue, isDisabled }) => {
 
+  const [currentInputValue, setCurrentInputValue] = useState(sortValue)
+  const [isTyping, setIsTyping] = useState(false)
   const sortChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(e.target.value)
     setSortCompare('')
@@ -24,10 +26,15 @@ export const Filters: FC<IFilters> = ({ setSortBy, setSortCompare, setSortValue,
     setSortCompare(e.target.value)
   }
 
+  let timeout : ReturnType<typeof setTimeout>
   const valueChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSortValue(e.target.value)
+    clearTimeout(timeout)
+    setCurrentInputValue(e.target.value)
+    timeout = setTimeout(() => {
+      setSortValue(currentInputValue)
+      }, 1000)
   }
-
+  
 
   return (
     <div className={cn.filtersWrapper}>
@@ -48,7 +55,7 @@ export const Filters: FC<IFilters> = ({ setSortBy, setSortCompare, setSortValue,
         { sortBy !== 'distance' && sortBy !== 'quantity' && <option value={'contains'}>Contains</option>}
 
       </select>
-      <input disabled={sortBy === '' || sortCompare === '' || isDisabled} value={sortValue} onChange={valueChangeHandler} type="text" />
+      <input disabled={sortBy === '' || sortCompare === ''} value={currentInputValue} onChange={valueChangeHandler} type="text" />
     </div>
   )
 }

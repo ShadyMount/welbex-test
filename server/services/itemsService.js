@@ -14,42 +14,42 @@ const whereConditions = (sortBy, sortValue, sortCompare) => {
         }
     }
 
-    if (sortBy === 'quantity' && sortValue) {
+    if (sortBy === 'quantity' && sortValue && Number(sortValue)) {
         if (sortCompare === 'more') {
             whereConditions = 'WHERE item.quantity'
-            likeConditions = `> ${sortValue}`
+            likeConditions = `> ${Number(sortValue)}`
         }
         if (sortCompare === 'less') {
             whereConditions = 'WHERE item.quantity'
-            likeConditions = `< ${sortValue}`
+            likeConditions = `< ${Number(sortValue)}`
         }
         if (sortCompare === 'contains') {
             whereConditions = 'WHERE item.quantity'
-            likeConditions = `LIKE '%${sortValue}%'`
+            likeConditions = `LIKE '%${Number(sortValue)}%'`
         }
         if (sortCompare === 'equal') {
             whereConditions = 'WHERE item.quantity'
-            likeConditions = `= ${sortValue}`
+            likeConditions = `= ${Number(sortValue)}`
         }
     }
 
 
-    if (sortBy === 'distance' && sortValue !== '') {
+    if (sortBy === 'distance' && sortValue && Number(sortValue)) {
         if (sortCompare === 'more') {
             whereConditions = 'WHERE item.distance'
-            likeConditions = `> ${sortValue}`
+            likeConditions = `> ${Number(sortValue)}`
         }
         if (sortCompare === 'less') {
             whereConditions = 'WHERE item.distance'
-            likeConditions = `< ${sortValue}`
+            likeConditions = `< ${Number(sortValue)}`
         }
         if (sortCompare === 'contains') {
             whereConditions = 'WHERE item.distance'
-            likeConditions = `LIKE '%${sortValue}%`
+            likeConditions = `LIKE '%${Number(sortValue)}%`
         }
         if (sortCompare === 'equal') {
             whereConditions = 'WHERE item.distance'
-            likeConditions = `= ${sortValue}`
+            likeConditions = `= ${Number(sortValue)}`
         }
     }
 
