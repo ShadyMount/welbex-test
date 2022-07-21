@@ -1,0 +1,31 @@
+.Pages{
+    display: flex;
+    justify-content: center;
+    column-gap: 5px;
+    font-size: large
+}
+
+.PageNumber:hover{
+    cursor: pointer;
+    
+}
+
+.Selected{
+    font-weight: bold;
+    text-decoration: underline;
+}
+.Selected:hover{
+    cursor: pointer;
+}
+.itemsOnPage{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 5px;
+    gap: 5px;
+}
+
+.itemsOnPage :hover{
+    cursor: pointer
+}
