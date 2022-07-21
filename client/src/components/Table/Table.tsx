@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useMemo } from 'react'
 import cn from './Table.module.css'
 
 interface ITable {
@@ -6,7 +6,7 @@ interface ITable {
 }
 export const Table:FC<ITable> = ({items}) => {
   const [sortConfig, setSortConfig] = React.useState<any>({key: null, direction: null});
-  let sortedItems = [...items];
+  let sortedItems = useMemo(()=>[...items], [items]);
   React.useMemo(() => {
   if (sortConfig !== null) {
     sortedItems.sort((a, b) => {
@@ -18,7 +18,7 @@ export const Table:FC<ITable> = ({items}) => {
       }
       return 0;
     });
-  }}, [items, sortConfig])
+  }}, [sortConfig, sortedItems])
 
   const requestSort = (key: string) => {
     let direction = 'ascending';

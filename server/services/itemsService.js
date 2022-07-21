@@ -4,6 +4,7 @@ const items = require("../settings/db").items
 
 const whereConditions = (sortBy, sortValue, sortCompare) => {
     let conditions = {}
+    console.log('sortValue: ', sortValue);
 
     if(sortBy === 'name'){
         if(sortCompare === 'equal'){
@@ -13,7 +14,7 @@ const whereConditions = (sortBy, sortValue, sortCompare) => {
             conditions = {...conditions, 'name': {[Op.substring]: sortValue}}
         }
     }
-    if(sortBy === 'quantity'){
+    if(sortBy === 'quantity' && sortValue !== ''){
         console.log('where:',sortCompare);
         if(sortCompare === 'more'){
             conditions = {...conditions, 'quantity': {[Op.gt]: sortValue}}
@@ -28,7 +29,7 @@ const whereConditions = (sortBy, sortValue, sortCompare) => {
             conditions = {...conditions, 'quantity': {[Op.eq]: sortValue}}
         }
     }
-    if(sortBy === 'distance'){
+    if(sortBy === 'distance' && sortValue !== ''){
         if(sortCompare === 'more'){
             conditions = {...conditions, 'distance': {[Op.gt]: sortValue}}
         }

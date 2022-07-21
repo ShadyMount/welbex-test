@@ -31,7 +31,7 @@ export const Filters: FC<IFilters> = ({ setSortBy, setSortCompare, setSortValue,
   return (
     <div className={cn.filtersWrapper}>
       <select onChange={sortChangeHandler} value={sortBy}>
-        <option value=''>No sort</option>
+        <option value=''>No filter</option>
         <option value={'name'}>Name</option>
         <option value={'quantity'}>Quantity</option>
         <option value={'distance'}>Distance</option>
@@ -44,10 +44,10 @@ export const Filters: FC<IFilters> = ({ setSortBy, setSortCompare, setSortValue,
         </>
        )} 
         <option value={'equal'}>Equals</option>
-        <option value={'contains'}>Contains</option>
+        { sortBy !== 'distance' && sortBy !== 'quantity' && <option value={'contains'}>Contains</option>}
 
       </select>
-      <input disabled={sortBy === '' || sortCompare === ''} onChange={valueChangeHandler} type="text" />
+      <input disabled={sortBy === '' || sortCompare === ''} value={sortValue} onChange={valueChangeHandler} type="text" />
     </div>
   )
 }

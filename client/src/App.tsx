@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { itemsAPI } from "./api/api";
 import { Filters, Table } from "./components";
 import Paginator from "./components/common/Paginator/Paginator";
@@ -18,17 +18,18 @@ function App() {
     const getItems =  async () => {
       if(!isFetching){
         setIsFetching(true)
-        let items = await itemsAPI.getItems({sortBy, sortValue, sortCompare, currentPage, pageSize: 5})
+        let items = await itemsAPI.getItems({sortBy, sortValue, sortCompare, currentPage, pageSize})
         if(Math.ceil(items.itemsAmount / pageSize) < Math.ceil(itemsData.itemsAmount / pageSize)){
           setCurrentPage(1)
-        }
+        }        
         setItemsData(items)
         setIsFetching(false)
       }
-      
     }
     getItems()
   }, [sortBy, sortValue, sortCompare, currentPage, pageSize, itemsData.itemsAmount])
+console.log('ps: ', pageSize);
+
 
   return (
     <div className="App">
@@ -49,7 +50,8 @@ function App() {
               portionSize={5}
               setCurrentPage={setCurrentPage}
               totalItems={itemsData.itemsAmount}
-              pageSize={5}
+              pageSize={pageSize}
+              setPageSize={setPageSize}
             />
         </>
       }

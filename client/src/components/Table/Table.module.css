@@ -52,6 +52,9 @@
         display: block;
         width: 100%;
     }
+    .tableWrapper{
+        margin: 10px 10px 10px;
+    }
     .table-wrapper:before{
         content: "Scroll horizontally >";
         display: block;
@@ -81,7 +84,7 @@
         box-sizing: border-box;
         overflow-x: hidden;
         overflow-y: auto;
-        width: 120px;
+        width: 80px;
         font-size: 13px;
         text-overflow: ellipsis;
     }

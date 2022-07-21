@@ -6,10 +6,11 @@ interface IPaginator {
     portionSize: number,
     currentPage: number,
     pageSize: number,
-    setCurrentPage: (p: number, currentPage: number) => void
+    setCurrentPage: (p: number, currentPage: number) => void,
+    setPageSize: (p:number) => void
 }
 
-const Paginator:FC<IPaginator> = ({totalItems, portionSize = 5, currentPage, setCurrentPage, pageSize}) => {
+const Paginator:FC<IPaginator> = ({totalItems, portionSize = 5, currentPage, setCurrentPage, pageSize, setPageSize}) => {
     const totalPages = Math.ceil(totalItems / pageSize)   
     let pages = []
     for (let i = 1; i <= totalPages; i++) {
@@ -36,6 +37,13 @@ const Paginator:FC<IPaginator> = ({totalItems, portionSize = 5, currentPage, set
                 {portionCount > portionNumber &&
                 <button onClick={()=>{setPortionNumber(portionNumber + 1)}}>next</button>
                 }
+                <select value={pageSize} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setPageSize(Number(e.target.value))}>
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={15}>15</option>
+                    <option value={30}>30</option>
+                    <option value={50}>50</option>
+                </select>
             </div>
     )
 }
