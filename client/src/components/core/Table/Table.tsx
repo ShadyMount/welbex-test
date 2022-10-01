@@ -1,32 +1,24 @@
-import React, { FC, useMemo } from 'react'
+import { FC } from 'react'
 import cn from './Table.module.css'
 
 interface ITable {
-  items: any[]
+  items: any[],
+  sortBy: string,
+  setSortBy: (sortBy: string) => void
+  sortDir: 'ASC' | 'DESC'
+  setSortDir: (sortDir: 'ASC' | 'DESC') => void
 }
-export const Table:FC<ITable> = ({items}) => {
-  const [sortConfig, setSortConfig] = React.useState<any>({key: null, direction: null});
-  let sortedItems = useMemo(()=>[...items], [items]);
-  React.useMemo(() => {
-  if (sortConfig !== null) {
-    sortedItems.sort((a, b) => {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
-        return sortConfig.direction === 'ascending' ? -1 : 1;
-      }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
-        return sortConfig.direction === 'ascending' ? 1 : -1;
-      }
-      return 0;
-    });
-  }}, [sortConfig, sortedItems])
+export const Table:FC<ITable> = ({items, setSortBy, setSortDir, sortBy, sortDir}) => {
 
   const requestSort = (key: string) => {
-    let direction = 'ascending';
-    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
+    let direction: 'ASC' | 'DESC' = "ASC";
+    if (sortBy === key && sortDir === 'ASC') {
+      direction = 'DESC';
     }
-    setSortConfig({ key, direction });
+    setSortBy(key)
+    setSortDir(direction);
   }
+
 
   return (
     <div className={cn.tableWrapper}>
@@ -41,7 +33,7 @@ export const Table:FC<ITable> = ({items}) => {
         </tr>
         </thead>
         <tbody>
-        {sortedItems.map((item:any)=>(
+        {items.map((item:any)=>(
           <tr key={item.id}>
           <td>{item.id}</td>
           <td>{item.name}</td>

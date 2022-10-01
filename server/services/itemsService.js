@@ -1,60 +1,63 @@
 const dbPool = require("../settings/db").pool
 
-const whereConditions = (sortBy, sortValue, sortCompare) => {
+const whereConditions = (filterBy, filterValue, filterCompare, orderBy, orderDir) => {
     let whereConditions = ''
     let likeConditions = ''
+    let orderConditions = ` ORDER BY ${orderBy} ${orderDir}`
 
-    if (sortBy === 'name' && sortValue) {
-        if (sortCompare === 'equal') {
+    if (filterBy === 'name' && filterValue) {
+        if (filterCompare === 'equal') {
             whereConditions = 'WHERE item.name'
-            likeConditions = `= '${sortValue}'`
-        } else if (sortCompare === 'contains' && sortValue) {
+            likeConditions = `= '${filterValue}'`
+        } else if (filterCompare === 'contains' && filterValue) {
             whereConditions = 'WHERE item.name'
-            likeConditions = `LIKE '%${sortValue}%'`
+            likeConditions = `ILIKE '%${filterValue}%'`
         }
     }
 
-    if (sortBy === 'quantity' && sortValue && Number(sortValue)) {
-        if (sortCompare === 'more') {
+    if (filterBy === 'quantity' && filterValue && Number(filterValue)) {
+        if (filterCompare === 'more') {
             whereConditions = 'WHERE item.quantity'
-            likeConditions = `> ${Number(sortValue)}`
+            likeConditions = `> ${Number(filterValue)}`
         }
-        if (sortCompare === 'less') {
+        if (filterCompare === 'less') {
             whereConditions = 'WHERE item.quantity'
-            likeConditions = `< ${Number(sortValue)}`
+            likeConditions = `< ${Number(filterValue)}`
         }
-        if (sortCompare === 'contains') {
+        if (filterCompare === 'contains') {
             whereConditions = 'WHERE item.quantity'
-            likeConditions = `LIKE '%${Number(sortValue)}%'`
+            likeConditions = `ILIKE '%${Number(filterValue)}%'`
         }
-        if (sortCompare === 'equal') {
+        if (filterCompare === 'equal') {
             whereConditions = 'WHERE item.quantity'
-            likeConditions = `= ${Number(sortValue)}`
-        }
-    }
-
-
-    if (sortBy === 'distance' && sortValue && Number(sortValue)) {
-        if (sortCompare === 'more') {
-            whereConditions = 'WHERE item.distance'
-            likeConditions = `> ${Number(sortValue)}`
-        }
-        if (sortCompare === 'less') {
-            whereConditions = 'WHERE item.distance'
-            likeConditions = `< ${Number(sortValue)}`
-        }
-        if (sortCompare === 'contains') {
-            whereConditions = 'WHERE item.distance'
-            likeConditions = `LIKE '%${Number(sortValue)}%`
-        }
-        if (sortCompare === 'equal') {
-            whereConditions = 'WHERE item.distance'
-            likeConditions = `= ${Number(sortValue)}`
+            likeConditions = `= ${Number(filterValue)}`
         }
     }
 
 
-    return whereConditions + ' ' + likeConditions
+    if (filterBy === 'distance' && filterValue && Number(filterValue)) {
+        if (filterCompare === 'more') {
+            whereConditions = 'WHERE item.distance'
+            likeConditions = `> ${Number(filterValue)}`
+        }
+        if (filterCompare === 'less') {
+            whereConditions = 'WHERE item.distance'
+            likeConditions = `< ${Number(filterValue)}`
+        }
+        if (filterCompare === 'contains') {
+            whereConditions = 'WHERE item.distance'
+            likeConditions = `ILIKE '%${Number(filterValue)}%`
+        }
+        if (filterCompare === 'equal') {
+            whereConditions = 'WHERE item.distance'
+            likeConditions = `= ${Number(filterValue)}`
+        }
+    }
+
+console.log(whereConditions + ' ' + likeConditions + orderConditions);
+    if(!orderBy){return whereConditions + ' ' + likeConditions}
+
+    return whereConditions + ' ' + likeConditions + orderConditions
 }
 
 
@@ -62,10 +65,10 @@ const whereConditions = (sortBy, sortValue, sortCompare) => {
 
 class TasksService {
 
-    async findItems({ sortBy, sortValue, sortCompare, currentPage, pageSize }) {
+    async findItems({ filterBy, filterValue, filterCompare, currentPage, pageSize, orderBy, orderDir }) {
         const skip = (currentPage - 1) * pageSize
         const text = `SELECT "id", "name", "quantity", "distance", "date"
-            FROM "public"."items" AS "item" ${whereConditions(sortBy, sortValue, sortCompare)} LIMIT ${pageSize} OFFSET ${skip}`
+            FROM "public"."items" AS "item" ${whereConditions(filterBy, filterValue, filterCompare, orderBy, orderDir)} LIMIT ${pageSize} OFFSET ${skip}`
         try {
             const itemsFromDb = await dbPool.query(text)
             if(itemsFromDb.rows){
@@ -78,8 +81,8 @@ class TasksService {
         }
     }
 
-    async countItems({ sortBy, sortValue, sortCompare }) {
-        const text = `SELECT count(*) AS "count" FROM "public"."items" AS "item" ${whereConditions(sortBy, sortValue, sortCompare)}`
+    async countItems({ filterBy, filterValue, filterCompare }) {
+        const text = `SELECT count(*) AS "count" FROM "public"."items" AS "item" ${whereConditions(filterBy, filterValue, filterCompare)}`
         try {
             const count = await dbPool.query(text)
             if(count.rows[0].count){

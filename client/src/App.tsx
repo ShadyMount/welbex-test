@@ -4,23 +4,26 @@ import { Filters, Table, Paginator, Spinner } from "./components";
 
 function App() {
 
-  const [sortBy, setSortBy] = useState('')
-  const [sortValue, setSortValue] = useState('')
-  const [sortCompare, setSortCompare] = useState('')
+  const [filterBy, setFilterBy] = useState('')
+  const [filterValue, setFilterValue] = useState('')
+  const [filterCompare, setFilterCompare] = useState('')
   const [itemsData, setItemsData] = useState({items: [], itemsAmount: 1})
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(5)
   const [isFetching, setIsFetching] = useState(false)
   const [fetchingError, setFetchingError] =  useState(null)
+  const [orderBy, setOrderBy] = useState('id')
+  const [orderDir, setOrderDir] = useState<'ASC' | 'DESC'>('ASC')
 
   useEffect(() => {
       (async () => {
         try {
           if(!isFetching){
             setIsFetching(true)
-            let items = await itemsAPI.getItems({sortBy, sortValue, sortCompare, currentPage, pageSize})
-            if(Math.ceil(items.itemsAmount / pageSize) < Math.ceil(itemsData.itemsAmount / pageSize)){
-              setCurrentPage(1)
+            let items = await itemsAPI.getItems({filterBy, filterValue, filterCompare, currentPage, pageSize, orderBy, orderDir})
+            const totalPages = Math.ceil(items.itemsAmount / pageSize)
+            if(currentPage > totalPages){
+              setCurrentPage(totalPages)
             }        
             setItemsData(items)
             setIsFetching(false)
@@ -31,26 +34,34 @@ function App() {
         }
     })()
     // eslint-disable-next-line
-  }, [sortBy, sortValue, sortCompare, currentPage, pageSize])
+  }, [filterBy, filterValue, filterCompare, currentPage, pageSize, orderBy, orderDir])
 
 
   if(fetchingError) return <div>Fetching data error: {fetchingError} , please try to reload page...</div>
+console.log('Cp: ', currentPage, 'PageSize: ', pageSize, 'itemsData.itemsAmount: ', itemsData.itemsAmount);
 
   return (
     <div className="App">
       <Filters
         isDisabled={isFetching}
-        sortBy={sortBy}
-        sortCompare={sortCompare}
-        sortValue={sortValue}
-        setSortBy={setSortBy}
-        setSortCompare={setSortCompare}
-        setSortValue={setSortValue}
+        filterBy={filterBy}
+        filterCompare={filterCompare}
+        filterValue={filterValue}
+        setFilterBy={setFilterBy}
+        setFilterCompare={setFilterCompare}
+        setFilterValue={setFilterValue}
       />
       {isFetching
         ? <Spinner />
         : <>
-            <Table items={itemsData.items}/>
+            <Table
+              items={itemsData.items}
+              sortBy={orderBy}
+              setSortBy={setOrderBy}
+              setSortDir={setOrderDir}
+              sortDir={orderDir}
+
+            />
             <Paginator
               currentPage={currentPage}
               portionSize={5}
@@ -61,7 +72,6 @@ function App() {
             />
         </>
       }
-      {/* <Spinner /> */}
       
     </div>
   );

@@ -2,28 +2,27 @@ import { Dispatch, FC, SetStateAction, useState } from 'react'
 import cn from './Filters.module.scss'
 
 interface IFilters {
-  setSortCompare: Dispatch<SetStateAction<string>>
-  setSortValue: Dispatch<SetStateAction<string>>
-  setSortBy: Dispatch<SetStateAction<string>>
-  sortValue: string;
-  sortCompare: string;
-  sortBy: string;
+  setFilterCompare: Dispatch<SetStateAction<string>>
+  setFilterValue: Dispatch<SetStateAction<string>>
+  setFilterBy: Dispatch<SetStateAction<string>>
+  filterValue: string;
+  filterCompare: string;
+  filterBy: string;
   isDisabled: boolean
 
 }
 
-export const Filters: FC<IFilters> = ({ setSortBy, setSortCompare, setSortValue, sortBy, sortCompare, sortValue, isDisabled }) => {
+export const Filters: FC<IFilters> = ({ setFilterBy, setFilterCompare, setFilterValue, filterBy, filterCompare, filterValue, isDisabled }) => {
 
-  const [currentInputValue, setCurrentInputValue] = useState(sortValue)
-  // const [isTyping, setIsTyping] = useState(false)
+  const [currentInputValue, setCurrentInputValue] = useState(filterValue)
   const sortChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortBy(e.target.value)
-    setSortCompare('')
-    setSortValue('')
+    setFilterBy(e.target.value)
+    setFilterCompare('')
+    setFilterValue('')
   }
 
   const compareChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortCompare(e.target.value)
+    setFilterCompare(e.target.value)
   }
 
   let timeout : ReturnType<typeof setTimeout>
@@ -32,31 +31,31 @@ export const Filters: FC<IFilters> = ({ setSortBy, setSortCompare, setSortValue,
     setCurrentInputValue(e.target.value)
     clearTimeout(timeout)
      timeout = setTimeout(() => {
-      setSortValue(e.target.value)
+      setFilterValue(e.target.value)
       }, 1000)
   }
   
 
   return (
     <div className={cn.filtersWrapper}>
-      <select onChange={sortChangeHandler} disabled={isDisabled} value={sortBy}>
+      <select onChange={sortChangeHandler} disabled={isDisabled} value={filterBy}>
         <option value=''>No filter</option>
         <option value={'name'}>Name</option>
         <option value={'quantity'}>Quantity</option>
         <option value={'distance'}>Distance</option>
       </select>
-      <select onChange={compareChangeHandler} value={sortCompare} disabled={sortBy === '' || isDisabled}>
+      <select onChange={compareChangeHandler} value={filterCompare} disabled={filterBy === '' || isDisabled}>
         <option value=''>No compare</option>
-       {sortBy !== 'name' && (<>
+       {filterBy !== 'name' && (<>
         <option value={'more'}>More than</option>
         <option value={'less'}>Less than</option>
         </>
        )} 
         <option value={'equal'}>Equals</option>
-        { sortBy !== 'distance' && sortBy !== 'quantity' && <option value={'contains'}>Contains</option>}
+        { filterBy !== 'distance' && filterBy !== 'quantity' && <option value={'contains'}>Contains</option>}
 
       </select>
-      <input disabled={sortBy === '' || sortCompare === ''} value={currentInputValue} onChange={valueChangeHandler} type="text" />
+      <input disabled={filterBy === '' || filterCompare === ''} value={currentInputValue} onChange={valueChangeHandler} type="text" />
     </div>
   )
 }

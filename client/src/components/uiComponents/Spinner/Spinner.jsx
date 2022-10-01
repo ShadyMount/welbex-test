@@ -1,5 +1,4 @@
 import classes from './Spinner.module.css'
-import React from 'react'
 
 export const Spinner = () => {
 

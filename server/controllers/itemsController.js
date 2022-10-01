@@ -9,12 +9,14 @@ class tasksController {
     async getItems (req, res, next){
             const currentPage = Number(req.query.currentPage) || 1
             const pageSize = Number(req.query.pageSize) || 15 
-            const sortBy = req.query?.sortBy
-            const sortValue = Number(req.query?.sortValue) || req.query?.sortValue || ''
-            const sortCompare = req.query?.sortCompare
+            const filterBy = req.query?.filterBy
+            const filterValue = Number(req.query?.filterValue) || req.query?.filterValue || ''
+            const filterCompare = req.query?.filterCompare
+            const orderBy = req.query?.orderBy || 'id'
+            const orderDir = req.query?.orderDir || 'ASC' // DESC
             try {
-                const items = await itemsService.findItems({sortBy, sortValue, sortCompare, currentPage, pageSize})
-                const itemsAmount = await itemsService.countItems({sortBy, sortValue, sortCompare})     
+                const items = await itemsService.findItems({filterBy, filterValue, filterCompare, currentPage, pageSize, orderBy, orderDir})
+                const itemsAmount = await itemsService.countItems({filterBy, filterValue, filterCompare})     
                 response.status(200, {items, itemsAmount}, res)
             } catch (e) {
                 next(e);
@@ -24,9 +26,9 @@ class tasksController {
     async countItems (req, res, next){
         try {
             const sort = req.query?.sort
-            const sortValue = req.query?.sortValue
+            const filterValue = req.query?.filterValue
             const sortDir = req.query?.sortDir
-            const itemsAmount = await itemsService.countItems({sort, sortValue, sortDir})   
+            const itemsAmount = await itemsService.countItems({sort, filterValue, sortDir})   
             response.status(200, itemsAmount, res)
         } catch (e) {
             next(e);
