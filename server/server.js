@@ -6,8 +6,8 @@ const routes = require('./settings/routes')
 
 const cors = require('cors');
 app.use(cors({
-    // origin: process.env.CORSORIGINS || ['http://localhost:3000', 'https://shadymount.github.io/welbex-test/'],
-    origin: 'http://localhost:3000',
+    origin: process.env.CORSORIGINS || ['http://localhost:3000', 'https://shadymount.github.io/welbex-test/'],
+    // origin: 'http://localhost:3000',
     credentials: true,
     crossDomain: true
 }));
